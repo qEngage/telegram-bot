@@ -12,6 +12,20 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.30.0",
+    "@ostdotcom/ost-sdk-js": "^1.1.0",
+    "botkit": "0.2.2",
+    "botkit-storage-mongo": "^1.0.2",
+    "lodash": "^4.17.10",
+    "mongodb": "^1.4.39",
+    "mongoose": "^5.2.6",
+    "validator": "^10.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "sleep": "^5.2.3"
+  },
   "bugs": {
     "url": "https://github.com/qEngage/telegram-bot/issues"
   },
