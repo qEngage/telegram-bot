@@ -4,7 +4,9 @@
   "description": "Telegram Bot for the qEngage framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "source ./app-env && node src/server.js",
+    "start-watch": "nodemon --exec \"npm start\""
   },
   "repository": {
     "type": "git",
