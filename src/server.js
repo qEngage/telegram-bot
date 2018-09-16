@@ -1,3 +1,5 @@
+const {CONTRACTS} = require('./contracts/config');
+
 const TelegramBot = require('node-telegram-bot-api');
 const token = "677023252:AAGbnHDuAADY3nNjlYCAIwLj5ssb484lw28";
 const bot = new TelegramBot(token, {polling: true});
@@ -60,13 +62,12 @@ bot.on('message', (message) => {
     .then((admins) => {
       // console.log(data);
       const user = extractUser(message, admins);
-      console.log('Extracted User =>', user);
-      const message_text = extractText(message);
-      console.log(message_text);
-      // const isPrivateChat = message.chat.type == "private" ? true : false;
-
-      // executeCommand(mode, command_name, data)
-
+      // console.log('Extracted User =>', user);
+      const command = extractCommand(message);
+      // console.log(command);
+      const context = message.chat.type == "private" ? "private" : "group";
+      // console.log(context);
+      processCommand(command, context, user);
     }).catch(console.log);
 });
 
@@ -90,8 +91,17 @@ const extractUser = function(message, admins) {
   return user;
 }
 
-const extractText = function(message) {
+const extractCommand = function(message) {
+  // TODO:- Process Later if necessary
   return message.text;
+}
+
+const processCommand = function(command, context, user) {
+  console.log("Command Issued =>", command);
+  console.log("Issued in context =>", context);
+  console.log("For User \n", user);
+
+  // console.log("Token Contract =>", CONTRACTS.TOKEN);
 }
 
 // executeCommand(mode, command_name, user) {
