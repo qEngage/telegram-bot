@@ -97,22 +97,37 @@ const extractCommand = function(message) {
 }
 
 const processCommand = function(command, context, user) {
-  console.log("Command Issued =>", command);
-  console.log("Issued in context =>", context);
-  console.log("For User \n", user);
-
+  // console.log("Command Issued =>", command);
+  // console.log("Issued in context =>", context);
+  // console.log("For User \n", user);
+  const user_auth= user.is_admin ? "admin" : "non_admin";
+  if(context == "private") {
+    // TODO:- Check for Validity, else kindly respond
+    // Validity includes valid text command, valid arguments as well
+    executeCommandInPrivate(command, user_auth, user);
+  } else {
+    // TODO:- Check for Validity, else return kind response
+    // Validity includes valid text command, valid arguments as well
+    executeCommandInGroup(command, user_auth, user);
+  }
   // console.log("Token Contract =>", CONTRACTS.TOKEN);
 }
 
-// executeCommand(mode, command_name, user) {
-  // Check if command allowed or not by referring array, else respond kindly
 
-  // if isPrivateChat {
-    // executePrivateChatCommand(command, user)
-  // } else {
-    // executeGroupChatCommand(command, user)
- // }
-// }
+
+const executeCommandInPrivate = function(command, auth, user) {
+  console.log("Executing Command Issued in DM...");
+  console.log("| Command |", command);
+  console.log("| User Auth |", auth);
+  console.log("| User |", user);
+}
+
+const executeCommandInGroup = function(command, auth, user) {
+  console.log("Executing Command Issued in Group...");
+  console.log("| Command |", command);
+  console.log("| User Auth |", auth);
+  console.log("| User |", user);
+}
 
 // executePrivateChatCommand()
 // executeGroupChatCommand()
