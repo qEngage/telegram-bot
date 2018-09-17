@@ -15,14 +15,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-telegram-bot-api": "^0.30.0",
     "@ostdotcom/ost-sdk-js": "^1.1.0",
     "botkit": "0.2.2",
     "botkit-storage-mongo": "^1.0.2",
     "lodash": "^4.17.10",
     "mongodb": "^1.4.39",
     "mongoose": "^5.2.6",
-    "validator": "^10.4.0"
+    "node-telegram-bot-api": "^0.30.0",
+    "validator": "^10.4.0",
+    "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "nodemon": "^1.18.3",
