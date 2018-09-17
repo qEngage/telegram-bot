@@ -30,8 +30,9 @@ For Admin:-
 
 
 const {CONTRACTS} = require('./contracts/config');
-const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
+const {SUPERGROUP_ID, ESCROW_ACCOUNT, ALLOWED_COMMANDS} =
 require('./modules/constants/constants');
+const Cache = require('./modules/mem_files/mem_file');
 
 const TelegramBot = require('node-telegram-bot-api');
 const token = "677023252:AAGbnHDuAADY3nNjlYCAIwLj5ssb484lw28";
@@ -130,6 +131,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
     }
   } else { // auth is admin
     if(command.startsWith("/info")) {
+      const USER_ACCOUNTS = Cache.readUserCacheSummary();
       const second_arg = command.split(' ')[1];
       if(second_arg == "accounts") {
         var response = "Here's a list of all user accounts in your supergroup\n ";
@@ -141,8 +143,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
           var balance = TokenContract.getBalance(address);
           response += "=========================================================\n";
           response += `Username: ${username}\n`;
-          response += `Address : ${address}\n`;
-          response += `Balance : ${balance}\n`;
+          response += `Address: ${address}\n`;
           response += "=========================================================\n";
         }
         console.log(response);
@@ -151,7 +152,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       }
 
       if(second_arg == "system") {
-        var response = "Here's the current details for your bounty config\n ";
+        var response = "Here's the current details for your bounty config\n";
         response += "=========================================================\n";
         response += `GROUP ID: ${SUPERGROUP_ID}\n`;
         response += `REDEMPTION CYCLE: ${UserContract.getCycleForGroup(SUPERGROUP_ID)}\n`;
@@ -176,8 +177,8 @@ const executeCommandInPrivate = function(message, command, auth, user) {
 
       var response = "=========================================================\n";
       response += `Username: ${username}\n`;
-      response += `Address : ${address}\n`;
-      response += `Balance : ${balance}\n`;
+      response += `Address: ${address}\n`;
+      response += `Balance: ${balance}\n`;
       response += "=========================================================\n";
       console.log(response);
       bot.sendMessage(user.id, response);

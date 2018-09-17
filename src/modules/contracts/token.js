@@ -1,7 +1,6 @@
 const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
 require('../constants/constants');
-const {GENERAL_CACHE, SYSTEM_CACHE, USER_CACHE} =
-require('../mem_files/mem_file');
+const Cache = require('../mem_files/mem_file');
 
 const executeTipTransfer = function(transfer) {
   console.log("Executing tip transfer...");
@@ -27,9 +26,19 @@ const executeTransfer = function(transfer) {
 }
 
 const getBalance = function(address) {
-  console.log("Showing balance of address ->", address);
-  // READ MEMFILE
-  return address;
+  console.log("Showing balance of address ->", `${address}`);
+  address = `${address}`;
+  const userCache = Cache.readUserCache();
+  for(const [key,val] of Object.entries(userCache)) {
+    //console.log(key, val);
+    const tokens = JSON.stringify(val.earned_tokens);
+    const usd = JSON.stringify(val.usd_balance);
+    console.log(`${val.address}`, address, tokens, usd);
+    if (`${val.address}` == address) {
+      return `Tokens: ${tokens}, USD: $${usd}`;
+    }
+  }
+  return "User Not Found!";
 }
 
 module.exports = {

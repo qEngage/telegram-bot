@@ -1,5 +1,6 @@
-const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
+const {SUPERGROUP_ID, ESCROW_ACCOUNT, ALLOWED_COMMANDS} =
 require('../constants/constants');
+const Cache = require('../mem_files/mem_file');
 
 const getFormattedTimeStamp = function(timeSince1970) {
   var date = new Date(timeSince1970);
@@ -9,6 +10,10 @@ const getFormattedTimeStamp = function(timeSince1970) {
 }
 
 const getWalletFromUsername = function(username){
+
+  const userCache = Cache.readUserCache();
+  const USER_ACCOUNTS = userCache.readUserCacheSummary();
+
   username = `${username}`;
   username = username.substring(1,username.length);
 

@@ -1,7 +1,6 @@
 const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
 require('../constants/constants');
-const {GENERAL_CACHE, SYSTEM_CACHE, USER_CACHE} =
-require('../mem_files/mem_file');
+const Cache = require('../mem_files/mem_file');
 
 const restrictUser = function(username, address) {
   console.log(address);
@@ -35,19 +34,26 @@ const setDailyRewardForGroup = function(groupId) {
 // MODify MEMFILE
 }
 
+//
+// var SYSTEM_CACHE = {
+//   bounty_amount: 0,
+//   daily_award: 0,
+//   cycle_period: 0
+// };
+
 const getCycleForGroup = function(groupId) {
-// READ MEMFILE
-  return "Cycle";
+  const systemCache = Cache.readSystemCache();
+  return systemCache.cycle_period;
 }
 
 const getBountyForGroup = function(groupId) {
-// READ MEMFILE
-  return "Cycle";
+  const systemCache = Cache.readSystemCache();
+  return systemCache.bounty_amount;
 }
 
 const getDailyRewardForGroup = function(groupId) {
-// READ MEMFILE
-  return "Cycle";
+  const systemCache = Cache.readSystemCache();
+  return systemCache.daily_award;
 }
 
 module.exports = {
