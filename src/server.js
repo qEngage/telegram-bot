@@ -107,13 +107,14 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       const address = Utils.getWalletFromUsername(`@${user.username}`);
       // console.log(address);
       var response = "Here's your wallet details...\n";
-      response += `Address: ${address}\n`;
+      response += `<b> Address: </b> ${address}\n`;
       // Enquire BalanceOf (balanceOf(address))
-      response += `Balance: ${TokenContract.getBalance(address)}\n`;
+      response += `<b> Balance: </b> ${TokenContract.getBalance(address)}\n`;
       console.log(response);
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
+
     if(command.startsWith("/redeem")){
       console.log("Executing redemption for user...");
       const address = Utils.getWalletFromUsername(`@${user.username}`);
@@ -128,15 +129,16 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Execute Redeem (transfer from qEng_GrowthBot to address)
       TokenContract.executeRedeemTransfer(transfer);
       var response = "I just redeemed tokens for you. Check your new balance!"
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
   } else { // auth is admin
+
     if(command.startsWith("/info")) {
       const USER_ACCOUNTS = Cache.readUserCacheSummary();
       const second_arg = command.split(' ')[1];
       if(second_arg == "accounts") {
-        var response = "Here's a list of all user accounts in your supergroup\n ";
+        var response = "<i> Here's a summary list of all user accounts in your supergroup </i>\n ";
         // response += JSON.stringify(USER_ACCOUNTS, undefined, 2);
         for(var i = 0;i < USER_ACCOUNTS.length; i++) {
           var account = USER_ACCOUNTS[i];
@@ -144,25 +146,26 @@ const executeCommandInPrivate = function(message, command, auth, user) {
           var address = account.wallet_id;
           var balance = TokenContract.getBalance(address);
           response += "=========================================================\n";
-          response += `Username: ${username}\n`;
-          response += `Address: ${address}\n`;
+          response += `<b> Username: </b>${username}\n`;
+          response += `<b> Address: </b>${address}\n`;
           response += "=========================================================\n";
         }
         console.log(response);
-        bot.sendMessage(user.id, response);
+        bot.sendMessage(user.id, response, {parse_mode: "HTML"});
         return;
       }
 
       if(second_arg == "system") {
-        var response = "Here's the current details for your bounty config\n";
+        var response = "<i> Here's the current setup for your supergroup </i>\n";
         response += "=========================================================\n";
-        response += `GROUP ID: ${SUPERGROUP_ID}\n`;
-        response += `REDEMPTION CYCLE: ${UserContract.getCycleForGroup(SUPERGROUP_ID)}\n`;
-        response += `BOUNTY REWARD FOR CYCLE: ${UserContract.getBountyForGroup(SUPERGROUP_ID)}\n`;
-        response += `DAILY TOKEN DISTRIBUTION PER USER: ${UserContract.getDailyRewardForGroup(SUPERGROUP_ID)}\n`;
+        response += `<b>GROUP ID: </b>${SUPERGROUP_ID}\n`;
+        response += `<b>REDEMPTION CYCLE: </b>${UserContract.getCycleForGroup(SUPERGROUP_ID)} days\n`;
+        response += `<b>BOUNTY REWARD FOR CYCLE: </b>$${UserContract.getBountyForGroup(SUPERGROUP_ID)} USD\n`;
+        response += `<b>DAILY TOKEN DISTRIBUTION PER USER: </b>${UserContract.getDailyRewardForGroup(SUPERGROUP_ID)} tokens\n`;
+        response += `<b>TOTAL TOKENS FOR DISTRIBUTION: </b> ${UserContract.getTotalTokensForGroup(SUPERGROUP_ID)} tokens\n`
         response += "=========================================================\n";
         console.log(response);
-        bot.sendMessage(user.id, response);
+        bot.sendMessage(user.id, response, {parse_mode: "HTML"});
         return;
       }
 
@@ -178,12 +181,12 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       }
 
       var response = "=========================================================\n";
-      response += `Username: ${username}\n`;
-      response += `Address: ${address}\n`;
-      response += `Balance: ${balance}\n`;
+      response += `<b>Username: </b>${username}\n`;
+      response += `<b>Address: </b>${address}\n`;
+      response += `<b>Balance: </b>${balance}\n`;
       response += "=========================================================\n";
       console.log(response);
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
@@ -192,12 +195,12 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Format:- /award @username <tokens>
       const username = command.split(" ")[1];
       const token = command.split(" ")[2];
-      var response = (`Awarding ${username} with ${token} tokens...\n`);
+      var response = (`Awarding <b>${username}</b> with <b>${token}</b> tokens...\n`);
       response += (`...\n`); response += (`...\n`);
       UserContract.awardToUser(
         Utils.getWalletFromUsername(`@${username}`), token);
-      response += (`${token} tokens awarded to ${username}!\n`);
-      bot.sendMessage(user.id, response);
+      response += (`<b>${token}</b> tokens awarded to <b>${username}</b>!\n`);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
@@ -206,45 +209,45 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Format:- /deduct @username <tokens>
       const username = command.split(" ")[1];
       const token = command.split(" ")[2];
-      var response = (`Deducting ${token} tokens from  ${username}...\n`);
+      var response = (`Deducting <b>${token}</b> tokens from  <b>${username}</b>...\n`);
       response += (`...\n`); response += (`...\n`);
       UserContract.deductFromUser(
         Utils.getWalletFromUsername(`@${username}`), token);
-      response += (`Deducted ${token} tokens from ${username}!\n`);
-      bot.sendMessage(user.id, response);
+      response += (`Deducted <b>${token}</b> tokens from <b>${username}</b>!\n`);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
 
     if(command.startsWith("/set_cycle")) {
       const days = command.split(" ")[1];
-      var response = (`Setting cycle for bounty distribution to ${days} days...\n`);
+      var response = (`Setting cycle for bounty distribution to <b>${days}</b> days...\n`);
       response += (`...\n`); response += (`...\n`);
       UserContract.setCycleForGroup(SUPERGROUP_ID);
       response += (`Set the cycle successfully!\n`);
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
 
     if(command.startsWith("/set_bounty")) {
       const amount = command.split(" ")[1];
-      var response = (`Setting bounty for bounty distribution to $${amount} USD...\n`);
+      var response = (`Setting bounty for bounty distribution to <b>$${amount} USD</b>...\n`);
       response += (`...\n`); response += (`...\n`);
       UserContract.setBountyForGroup(SUPERGROUP_ID);
       response += (`Set the bounty successfully!\n`);
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
 
     if(command.startsWith("/set_daily_award")) {
       const reward = command.split(" ")[1];
-      var response = (`Setting daily reward for each user to ${reward} tokens...\n`);
+      var response = (`Setting daily reward for each user to <b>${reward}</b> tokens...\n`);
       response += (`...\n`); response += (`...\n`);
       UserContract.setDailyRewardForGroup(SUPERGROUP_ID);
       response += (`Set the new daily reward successfully!\n`);
-      bot.sendMessage(user.id, response);
+      bot.sendMessage(user.id, response, {parse_mode: "HTML"});
       return;
     }
 
@@ -273,8 +276,8 @@ const executeCommandInGroup = function(message, command, auth, user) {
       // Make Transfer via Smart Contract (transfer(from, to, amt))
       TokenContract.executeTipTransfer(transfer);
       bot.sendMessage(
-        message.chat.id, `${user.username} just tipped and gave
-        ${command.split(" ")[1]} ${transfer.amount} tokens!`)
+        message.chat.id, `<b>${user.username} </b>just tipped and gave
+        <b>${command.split(" ")[1]}</b> <b>${transfer.amount}</b> tokens!`, {parse_mode: "HTML"})
       return;
     }
 
@@ -288,8 +291,8 @@ const executeCommandInGroup = function(message, command, auth, user) {
       // Make Transfer via fransfer(transfer);
       TokenContract.executeUpvoteTransfer(transfer);
       bot.sendMessage(
-        message.chat.id, `${user.username} just upvoted and gave
-        ${message.reply_to_message.from.username} ${transfer.amount} tokens!`);
+        message.chat.id, `<b>${user.username}</b> just upvoted and gave
+        <b>${message.reply_to_message.from.username}</b> <b>${transfer.amount}</b> tokens!`, {parse_mode: "HTML"});
       return;
     }
 
@@ -302,7 +305,10 @@ const executeCommandInGroup = function(message, command, auth, user) {
         Utils.getWalletFromUsername(command.split(" ")[1]));
       console.log(
         `Admin has restricted ${user.username} from receiving tokens`);
-      bot.sendMessage(message.chat.id, `Admin has restricted ${user.username} from receiving tokens`);
+      bot.sendMessage(
+        message.chat.id,
+        `Admin has restricted <b>${user.username}</b> from receiving tokens`,
+        {parse_mode: "HTML"});
       return;
     }
 
@@ -312,7 +318,10 @@ const executeCommandInGroup = function(message, command, auth, user) {
       UserContract.restrictUser(
         Utils.getWalletFromUsername(command.split(" ")[1]));
       console.log(`Admin has un-restricted ${user.username} from receiving tokens`);
-      bot.sendMessage(message.chat.id, `Admin has un-restricted ${user.username} from receiving tokens`);
+      bot.sendMessage(
+        message.chat.id,
+        `Admin has un-restricted <b>${user.username}</b> from receiving tokens`,
+        {parse_mode: "HTML"});
       return;
     }
 

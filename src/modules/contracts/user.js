@@ -56,6 +56,11 @@ const getDailyRewardForGroup = function(groupId) {
   return systemCache.daily_award;
 }
 
+const getTotalTokensForGroup = function(groupId) {
+  const systemCache = Cache.readSystemCache();
+  return systemCache.total_tokens;
+}
+
 module.exports = {
   restrictUser,
   unrestrictUser,
@@ -66,5 +71,6 @@ module.exports = {
   setDailyRewardForGroup,
   getCycleForGroup,
   getBountyForGroup,
-  getDailyRewardForGroup
+  getDailyRewardForGroup,
+  getTotalTokensForGroup
 }

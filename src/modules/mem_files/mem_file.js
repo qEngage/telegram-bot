@@ -8,7 +8,8 @@ var GENERAL_CACHE = {
 var SYSTEM_CACHE = {
   bounty_amount: 0,
   daily_award: 0,
-  cycle_period: 0
+  cycle_period: 0,
+  total_tokens: 100000
 };
 
 var USER_CACHE = {
