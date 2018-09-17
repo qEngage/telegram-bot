@@ -127,6 +127,8 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Utils.logJSON(transfer);
       // Execute Redeem (transfer from qEng_GrowthBot to address)
       TokenContract.executeRedeemTransfer(transfer);
+      var response = "I just redeemed tokens for you. Check your new balance!"
+      bot.sendMessage(user.id, response);
       return;
     }
   } else { // auth is admin
@@ -190,10 +192,12 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Format:- /award @username <tokens>
       const username = command.split(" ")[1];
       const token = command.split(" ")[2];
-      console.log(`Awarding ${username} with ${token} tokens..`);
+      var response = (`Awarding ${username} with ${token} tokens...\n`);
+      response += (`...\n`); response += (`...\n`);
       UserContract.awardToUser(
         Utils.getWalletFromUsername(`@${username}`), token);
-      console.log(`${token} tokens awarded to ${username}!`);
+      response += (`${token} tokens awarded to ${username}!\n`);
+      bot.sendMessage(user.id, response);
       return;
     }
 
@@ -202,37 +206,45 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       // Format:- /deduct @username <tokens>
       const username = command.split(" ")[1];
       const token = command.split(" ")[2];
-      console.log(`Deducting ${token} tokens from  ${username}...`);
+      var response = (`Deducting ${token} tokens from  ${username}...\n`);
+      response += (`...\n`); response += (`...\n`);
       UserContract.deductFromUser(
         Utils.getWalletFromUsername(`@${username}`), token);
-      console.log(`Deducted ${token} tokens from ${username}!`);
+      response += (`Deducted ${token} tokens from ${username}!\n`);
+      bot.sendMessage(user.id, response);
       return;
     }
 
 
     if(command.startsWith("/set_cycle")) {
       const days = command.split(" ")[1];
-      console.log(`Setting cycle for bounty distribution to ${days} days`);
+      var response = (`Setting cycle for bounty distribution to ${days} days...\n`);
+      response += (`...\n`); response += (`...\n`);
       UserContract.setCycleForGroup(SUPERGROUP_ID);
-      console.log(`Set the cycle successfully!`);
+      response += (`Set the cycle successfully!\n`);
+      bot.sendMessage(user.id, response);
       return;
     }
 
 
     if(command.startsWith("/set_bounty")) {
       const amount = command.split(" ")[1];
-      console.log(`Setting bounty for bounty distribution to $${amount} USD`);
+      var response = (`Setting bounty for bounty distribution to $${amount} USD...\n`);
+      response += (`...\n`); response += (`...\n`);
       UserContract.setBountyForGroup(SUPERGROUP_ID);
-      console.log(`Set the bounty successfully!`);
+      response += (`Set the bounty successfully!\n`);
+      bot.sendMessage(user.id, response);
       return;
     }
 
 
     if(command.startsWith("/set_daily_award")) {
       const reward = command.split(" ")[1];
-      console.log(`Setting daily reward for each user to ${reward} tokens`);
+      var response = (`Setting daily reward for each user to ${reward} tokens...\n`);
+      response += (`...\n`); response += (`...\n`);
       UserContract.setDailyRewardForGroup(SUPERGROUP_ID);
-      console.log(`Set the new daily reward successfully!`);
+      response += (`Set the new daily reward successfully!\n`);
+      bot.sendMessage(user.id, response);
       return;
     }
 
@@ -260,8 +272,12 @@ const executeCommandInGroup = function(message, command, auth, user) {
       // Utils.logJSON(transfer);
       // Make Transfer via Smart Contract (transfer(from, to, amt))
       TokenContract.executeTipTransfer(transfer);
+      bot.sendMessage(
+        message.chat.id, `${user.username} just tipped and gave
+        ${command.split(" ")[1]} ${transfer.amount} tokens!`)
       return;
     }
+
     if(command.startsWith("/upvote")) {
       // Command Format :- /upvote <amount> [Note: Upvote should be in response to a message]
       console.log("Executing upvote transaction from user...");
@@ -271,9 +287,14 @@ const executeCommandInGroup = function(message, command, auth, user) {
       // Utils.logJSON(transfer);
       // Make Transfer via fransfer(transfer);
       TokenContract.executeUpvoteTransfer(transfer);
+      bot.sendMessage(
+        message.chat.id, `${user.username} just upvoted and gave
+        ${message.reply_to_message.from.username} ${transfer.amount} tokens!`);
       return;
     }
+
   } else {
+
     if(command.startsWith("/restrict")) {
       // Command Format :- /restrict @username
       console.log(`Restricting ${user.username} from receiving tokens...`);
@@ -281,15 +302,19 @@ const executeCommandInGroup = function(message, command, auth, user) {
         Utils.getWalletFromUsername(command.split(" ")[1]));
       console.log(
         `Admin has restricted ${user.username} from receiving tokens`);
+      bot.sendMessage(message.chat.id, `Admin has restricted ${user.username} from receiving tokens`);
       return;
     }
+
     if(command.startsWith("/unrestrict")) {
       // Command Format :- /unrestrict @username
       console.log(`Restricting ${user.username} from receiving tokens...`);
       UserContract.restrictUser(
         Utils.getWalletFromUsername(command.split(" ")[1]));
       console.log(`Admin has un-restricted ${user.username} from receiving tokens`);
+      bot.sendMessage(message.chat.id, `Admin has un-restricted ${user.username} from receiving tokens`);
       return;
     }
+
   }
 }

@@ -12,7 +12,7 @@ const getFormattedTimeStamp = function(timeSince1970) {
 const getWalletFromUsername = function(username){
 
   const userCache = Cache.readUserCache();
-  const USER_ACCOUNTS = userCache.readUserCacheSummary();
+  const USER_ACCOUNTS = Cache.readUserCacheSummary();
 
   username = `${username}`;
   username = username.substring(1,username.length);
