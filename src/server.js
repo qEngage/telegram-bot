@@ -108,7 +108,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       var response = "Here's your wallet details...\n";
       response += `Address: ${address}\n`;
       // Enquire BalanceOf (balanceOf(address))
-      response += `Balance: ${TokenContract.showBalance(address)}\n`;
+      response += `Balance: ${TokenContract.getBalance(address)}\n`;
       console.log(response);
       bot.sendMessage(user.id, response);
       return;
@@ -130,28 +130,85 @@ const executeCommandInPrivate = function(message, command, auth, user) {
     }
   } else { // auth is admin
     if(command.startsWith("/info")) {
-      var response = "Here's a list of all user accounts in your supergroup\n ";
-      response += JSON.stringify(USER_ACCOUNTS, undefined, 2);
+      const second_arg = command.split(' ')[1];
+      if(second_arg == "accounts") {
+        var response = "Here's a list of all user accounts in your supergroup\n ";
+        // response += JSON.stringify(USER_ACCOUNTS, undefined, 2);
+        for(var i = 0;i < USER_ACCOUNTS.length; i++) {
+          var account = USER_ACCOUNTS[i];
+          var username = account.username;
+          var address = account.wallet_id;
+          var balance = TokenContract.getBalance(address);
+          response += "=========================================================\n";
+          response += `Username: ${username}\n`;
+          response += `Address : ${address}\n`;
+          response += `Balance : ${balance}\n`;
+          response += "=========================================================\n";
+        }
+        console.log(response);
+        bot.sendMessage(user.id, response);
+        return;
+      }
+
+      if(second_arg == "system") {
+        var response = "Here's the current details for your bounty config\n ";
+        response += "=========================================================\n";
+        response += `GROUP ID: ${SUPERGROUP_ID}\n`;
+        response += `REDEMPTION CYCLE: ${UserContract.getCycleForGroup(SUPERGROUP_ID)}\n`;
+        response += `BOUNTY REWARD FOR CYCLE: ${UserContract.getBountyForGroup(SUPERGROUP_ID)}\n`;
+        response += `DAILY TOKEN DISTRIBUTION PER USER: ${UserContract.getDailyRewardForGroup(SUPERGROUP_ID)}\n`;
+        response += "=========================================================\n";
+        console.log(response);
+        bot.sendMessage(user.id, response);
+        return;
+      }
+
+      var username; var address; var balance;
+      for(var i = 0;i < USER_ACCOUNTS.length; i++) {
+        var account = USER_ACCOUNTS[i];
+        if(account.username == second_arg) {
+          username = account.username;
+          address = account.wallet_id;
+          balance = TokenContract.getBalance(address);
+          break;
+        }
+      }
+
+      var response = "=========================================================\n";
+      response += `Username: ${username}\n`;
+      response += `Address : ${address}\n`;
+      response += `Balance : ${balance}\n`;
+      response += "=========================================================\n";
       console.log(response);
       bot.sendMessage(user.id, response);
       return;
     }
+
+
     if(command.startsWith("/award")) {
-      const token = command.split(" ")[1];
-      console.log(`Awarding ${user.username} with ${token} tokens..`);
+      // Format:- /award @username <tokens>
+      const username = command.split(" ")[1];
+      const token = command.split(" ")[2];
+      console.log(`Awarding ${username} with ${token} tokens..`);
       UserContract.awardToUser(
-        Utils.getWalletFromUsername(`@${user.username}`), token);
-      console.log(`${token} tokens awarded to ${user.username}!`);
+        Utils.getWalletFromUsername(`@${username}`), token);
+      console.log(`${token} tokens awarded to ${username}!`);
       return;
     }
+
+
     if(command.startsWith("/deduct")) {
-      const token = command.split(" ")[1];
-      console.log(`Deducting ${token} tokens from  ${user.username}...`);
+      // Format:- /deduct @username <tokens>
+      const username = command.split(" ")[1];
+      const token = command.split(" ")[2];
+      console.log(`Deducting ${token} tokens from  ${username}...`);
       UserContract.deductFromUser(
-        Utils.getWalletFromUsername(`@${user.username}`), token);
-      console.log(`Deducted ${token} tokens from ${user.username}!`);
+        Utils.getWalletFromUsername(`@${username}`), token);
+      console.log(`Deducted ${token} tokens from ${username}!`);
       return;
     }
+
+
     if(command.startsWith("/set_cycle")) {
       const days = command.split(" ")[1];
       console.log(`Setting cycle for bounty distribution to ${days} days`);
@@ -159,6 +216,8 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       console.log(`Set the cycle successfully!`);
       return;
     }
+
+
     if(command.startsWith("/set_bounty")) {
       const amount = command.split(" ")[1];
       console.log(`Setting bounty for bounty distribution to $${amount} USD`);
@@ -166,6 +225,8 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       console.log(`Set the bounty successfully!`);
       return;
     }
+
+
     if(command.startsWith("/set_daily_award")) {
       const reward = command.split(" ")[1];
       console.log(`Setting daily reward for each user to ${reward} tokens`);
@@ -173,6 +234,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       console.log(`Set the new daily reward successfully!`);
       return;
     }
+
   }
 }
 

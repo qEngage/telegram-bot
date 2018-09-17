@@ -35,6 +35,21 @@ const setDailyRewardForGroup = function(groupId) {
 // MODify MEMFILE
 }
 
+const getCycleForGroup = function(groupId) {
+// READ MEMFILE
+  return "Cycle";
+}
+
+const getBountyForGroup = function(groupId) {
+// READ MEMFILE
+  return "Cycle";
+}
+
+const getDailyRewardForGroup = function(groupId) {
+// READ MEMFILE
+  return "Cycle";
+}
+
 module.exports = {
   restrictUser,
   unrestrictUser,
@@ -42,5 +57,8 @@ module.exports = {
   deductFromUser,
   setCycleForGroup,
   setBountyForGroup,
-  setDailyRewardForGroup
+  setDailyRewardForGroup,
+  getCycleForGroup,
+  getBountyForGroup,
+  getDailyRewardForGroup
 }

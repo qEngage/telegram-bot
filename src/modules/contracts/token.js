@@ -26,7 +26,7 @@ const executeTransfer = function(transfer) {
   return transfer;
 }
 
-const showBalance = function(address) {
+const getBalance = function(address) {
   console.log("Showing balance of address ->", address);
   // READ MEMFILE
   return address;
@@ -34,5 +34,5 @@ const showBalance = function(address) {
 
 module.exports = {
   executeTransfer,
-  showBalance
+  getBalance
 }
