@@ -125,7 +125,7 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       };
       // Utils.logJSON(transfer);
       // Execute Redeem (transfer from qEng_GrowthBot to address)
-      TokenContract.executeTransfer(transfer);
+      TokenContract.executeRedeemTransfer(transfer);
       return;
     }
   } else { // auth is admin
@@ -134,6 +134,44 @@ const executeCommandInPrivate = function(message, command, auth, user) {
       response += JSON.stringify(USER_ACCOUNTS, undefined, 2);
       console.log(response);
       bot.sendMessage(user.id, response);
+      return;
+    }
+    if(command.startsWith("/award")) {
+      const token = command.split(" ")[1];
+      console.log(`Awarding ${user.username} with ${token} tokens..`);
+      UserContract.awardToUser(
+        Utils.getWalletFromUsername(`@${user.username}`), token);
+      console.log(`${token} tokens awarded to ${user.username}!`);
+      return;
+    }
+    if(command.startsWith("/deduct")) {
+      const token = command.split(" ")[1];
+      console.log(`Deducting ${token} tokens from  ${user.username}...`);
+      UserContract.deductFromUser(
+        Utils.getWalletFromUsername(`@${user.username}`), token);
+      console.log(`Deducted ${token} tokens from ${user.username}!`);
+      return;
+    }
+    if(command.startsWith("/set_cycle")) {
+      const days = command.split(" ")[1];
+      console.log(`Setting cycle for bounty distribution to ${days} days`);
+      UserContract.setCycleForGroup(SUPERGROUP_ID);
+      console.log(`Set the cycle successfully!`);
+      return;
+    }
+    if(command.startsWith("/set_bounty")) {
+      const amount = command.split(" ")[1];
+      console.log(`Setting bounty for bounty distribution to $${amount} USD`);
+      UserContract.setBountyForGroup(SUPERGROUP_ID);
+      console.log(`Set the bounty successfully!`);
+      return;
+    }
+    if(command.startsWith("/set_daily_award")) {
+      const reward = command.split(" ")[1];
+      console.log(`Setting daily reward for each user to ${reward} tokens`);
+      UserContract.setDailyRewardForGroup(SUPERGROUP_ID);
+      console.log(`Set the new daily reward successfully!`);
+      return;
     }
   }
 }
@@ -158,7 +196,7 @@ const executeCommandInGroup = function(message, command, auth, user) {
       transfer.amount = command.split(" ")[2];
       // Utils.logJSON(transfer);
       // Make Transfer via Smart Contract (transfer(from, to, amt))
-      TokenContract.executeTransfer(transfer);
+      TokenContract.executeTipTransfer(transfer);
       return;
     }
     if(command.startsWith("/upvote")) {
@@ -169,20 +207,25 @@ const executeCommandInGroup = function(message, command, auth, user) {
       transfer.amount = command.split(" ")[1];
       // Utils.logJSON(transfer);
       // Make Transfer via fransfer(transfer);
-      TokenContract.executeTransfer(transfer);
+      TokenContract.executeUpvoteTransfer(transfer);
       return;
     }
   } else {
     if(command.startsWith("/restrict")) {
       // Command Format :- /restrict @username
-      console.log("restrictning user from receiving tokens...");
-
+      console.log(`Restricting ${user.username} from receiving tokens...`);
+      UserContract.restrictUser(
+        Utils.getWalletFromUsername(command.split(" ")[1]));
+      console.log(
+        `Admin has restricted ${user.username} from receiving tokens`);
       return;
     }
     if(command.startsWith("/unrestrict")) {
       // Command Format :- /unrestrict @username
-      console.log("Unrestrictning user from receiving tokens...");
-
+      console.log(`Restricting ${user.username} from receiving tokens...`);
+      UserContract.restrictUser(
+        Utils.getWalletFromUsername(command.split(" ")[1]));
+      console.log(`Admin has un-restricted ${user.username} from receiving tokens`);
       return;
     }
   }
