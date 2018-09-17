@@ -130,14 +130,23 @@ const executeCommandInPrivate = function(message, command, auth, user) {
   // console.log("| Command |", command);
   // console.log("| User Auth |", auth);
   // console.log("| User |", user);
+
   if(auth == "user") {
     // TODO:- Modularize
     if(command.startsWith("/balance")) {
       console.log("Executing balance enquiry for user...");
+      const address = getWalletFromUsername(`@${user.username}`);
+      console.log(address);
+      // Enquire BalanceOf (balanceOf(address))
+
       return;
     }
     if(command.startsWith("/redeem")){
       console.log("Executing redemption for user...");
+      const address = getWalletFromUsername(`@${user.username}`);
+      const amount = command.split(" ")[1];
+      console.log(address, amount);
+      // Execute Redeem (transfer from qEng_GrowthBot to address)
       return;
     }
   } else { // auth is admin
@@ -169,7 +178,7 @@ const executeCommandInGroup = function(message, command, auth, user) {
       transfer.to_user = getWalletFromUsername(command.split(" ")[1]);
       transfer.amount = command.split(" ")[2];
       logJSON(transfer);
-      // Make Transfer via Smart Contract
+      // Make Transfer via Smart Contract (transfer(from, to, amt))
 
       return;
     }
@@ -180,7 +189,7 @@ const executeCommandInGroup = function(message, command, auth, user) {
         message.reply_to_message.from.username);
       transfer.amount = command.split(" ")[1];
       logJSON(transfer);
-      // Make Transfer via Smart Contract
+      // Make Transfer via Smart Contract (transfer(from, to, amt))
       return;
     }
   } else {
