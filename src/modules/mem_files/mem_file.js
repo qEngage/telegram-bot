@@ -68,17 +68,17 @@ const readUserCacheSummary = function() {
 
 const writeToGeneralCache = function(cache) {
   // Populate Cache from File system
-  return GENERAL_CACHE;
+  return GENERAL_CACHE = cache;
 }
 
 const writeToSystemCache = function(cache) {
   // Populate Cache from File system
-  return SYSTEM_CACHE;
+  return SYSTEM_CACHE = cache;
 }
 
 const writeToUserCache = function(cache) {
   // Populate Cache from File system
-  return USER_CACHE;
+  return USER_CACHE = cache;
 }
 
 module.exports = {

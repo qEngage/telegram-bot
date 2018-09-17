@@ -47,6 +47,9 @@ qEngage Bot Framework supports following commands:
 
 
 *For Admin*
+* `/info accounts` - summary of all accounts of supergroup
+* `/info system` - information about supergroup setup
+* `/info <username>` - information about a particular user, by username
 * `/set_cycle <days>` - sets redemption cycle in number of days
 * `/set_bounty <amount>` - set bounty for the specified period
 * `/set_daily_award <amount>` - sets daily award to be given to users
