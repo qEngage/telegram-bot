@@ -37,8 +37,8 @@ qEngage Bot Framework supports following commands:
 
 
 *For Admin*
-* `/ban @user` - ban a user from receiving tokens hence forth
-* `/unban @user` - unban a user from receiving tokens
+* `/restrict @user` - restrict a user from receiving tokens hence forth
+* `/unrestrict @user` - unrestrict a user from receiving tokens
 
 
 #### Commands that work in DMs
