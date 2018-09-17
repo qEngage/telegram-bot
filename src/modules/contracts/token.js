@@ -1,6 +1,6 @@
 const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
 require('../constants/constants');
-const {ADMIN_CACHE, USER_CACHE} =
+const {GENERAL_CACHE, SYSTEM_CACHE, USER_CACHE} =
 require('../mem_files/mem_file');
 
 const executeTransfer = function(transfer) {

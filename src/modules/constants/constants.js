@@ -11,7 +11,7 @@ const USER_ACCOUNTS = [
 
 const ALLOWED_COMMANDS = {
   ADMIN: [
-    '/ban', '/unban', '/set_cycle', '/set_bounty',
+    '/restrict', '/unrestrict', '/set_cycle', '/set_bounty',
     '/set_daily_award', '/award', '/deduct'],
   USER: [
     '/tip', '/upvote', '/balance', '/redeem']

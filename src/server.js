@@ -1,14 +1,3 @@
-const {CONTRACTS} = require('./contracts/config');
-const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
-require('./modules/constants/constants');
-
-const TelegramBot = require('node-telegram-bot-api');
-const token = "677023252:AAGbnHDuAADY3nNjlYCAIwLj5ssb484lw28";
-const bot = new TelegramBot(token, {polling: true});
-const Utils = require('./modules/utils/utils');
-
-const TokenContract = require('./modules/contracts/token');
-const UserContract = require('./modules/contracts/user');
 /*
 
 Commands that work in groups
@@ -20,8 +9,8 @@ For User:-
 
 For Admin:-
 
-/ban @user - ban a user from receiving tokens hence forth
-/unban @user - unban a user from receiving tokens
+/restrict @user - restrict a user from receiving tokens hence forth
+/unrestrict @user - unrestrict a user from receiving tokens
 
 Commands that work in DMs
 
@@ -38,6 +27,19 @@ For Admin:-
 /award @user <amount> - awards specified user additional tokens
 /deduct @user <amount> - deduct tokens from specified user
 */
+
+
+const {CONTRACTS} = require('./contracts/config');
+const {SUPERGROUP_ID, ESCROW_ACCOUNT, USER_ACCOUNTS, ALLOWED_COMMANDS} =
+require('./modules/constants/constants');
+
+const TelegramBot = require('node-telegram-bot-api');
+const token = "677023252:AAGbnHDuAADY3nNjlYCAIwLj5ssb484lw28";
+const bot = new TelegramBot(token, {polling: true});
+const Utils = require('./modules/utils/utils');
+
+const TokenContract = require('./modules/contracts/token');
+const UserContract = require('./modules/contracts/user');
 
 
 // :: Group based Commands ::
@@ -171,6 +173,17 @@ const executeCommandInGroup = function(message, command, auth, user) {
       return;
     }
   } else {
+    if(command.startsWith("/restrict")) {
+      // Command Format :- /restrict @username
+      console.log("restrictning user from receiving tokens...");
 
+      return;
+    }
+    if(command.startsWith("/unrestrict")) {
+      // Command Format :- /unrestrict @username
+      console.log("Unrestrictning user from receiving tokens...");
+
+      return;
+    }
   }
 }
