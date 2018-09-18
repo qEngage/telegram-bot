@@ -50,11 +50,63 @@ const UserContract = require('./modules/contracts/user');
 bot.onText(/\/start/, (message) => {
   // Setup the SUPERGROUP_ID
   // Setup Wallet IDS and Username mappings for All Users in SUPERGROUP_ID
+var response =
+`<i> Welcome to the Help Menu </i>
+<b>Commands that work in groups</b>
+* /restrict @user - restrict a user from receiving tokens hence forth
+* /unrestrict @user - unrestrict a user from receiving tokens
 
+<b>Commands that work in DMs</b>
+* /help or /start - renders this menu
+* /info accounts - summary of all accounts of supergroup
+* /info system - information about supergroup setup
+* /info :username: - information about a particular user, by username
+* /set_cycle :days: - sets redemption cycle in number of days
+* /set_bounty :amount: - set bounty for the specified period
+* /set_daily_award :amount: - sets daily award to be given to users
+* /award @user :amount: - awards specified user additional tokens
+* /deduct @user :amount: - deduct tokens from specified user`;
+// var response =
+// `<i> Welcome to the Help Menu </i>
+// <b>Commands that work in groups</b>
+// * /tip @user :amount: - tip a user with specified token amount
+// * /upvote  :amount:- reply to any message in your chat. Tips the creator with specified amount.
+//
+// <b>Commands that work in DMs</b>
+// * /help or /start - renders this menu
+// * /balance - this will show your current balance
+//* /redeem :amount: - to redeem tokens in exchange of bounty after specified date`;
+bot.sendMessage(message.chat.id, response, {parse_mode: "HTML"});
 });
 
 bot.onText(/\/help/, (message) => {
-  // Render help menu
+  var response =
+  `<i> Welcome to the Help Menu </i>
+  <b>Commands that work in groups</b>
+  * /restrict @user - restrict a user from receiving tokens hence forth
+  * /unrestrict @user - unrestrict a user from receiving tokens
+
+  <b>Commands that work in DMs</b>
+  * /help or /start - renders this menu
+  * /info accounts - summary of all accounts of supergroup
+  * /info system - information about supergroup setup
+  * /info :username: - information about a particular user, by username
+  * /set_cycle :days: - sets redemption cycle in number of days
+  * /set_bounty :amount: - set bounty for the specified period
+  * /set_daily_award :amount: - sets daily award to be given to users
+  * /award @user :amount: - awards specified user additional tokens
+  * /deduct @user :amount: - deduct tokens from specified user`;
+  // var response =
+  // `<i> Welcome to the Help Menu </i>
+  // <b>Commands that work in groups</b>
+  // * /tip @user :amount: - tip a user with specified token amount
+  // * /upvote  :amount:- reply to any message in your chat. Tips the creator with specified amount.
+  //
+  // <b>Commands that work in DMs</b>
+  // * /help or /start - renders this menu
+  // * /balance - this will show your current balance
+  // * /redeem :amount: - to redeem tokens in exchange of bounty after specified date`;
+  bot.sendMessage(message.chat.id, response, {parse_mode: "HTML"});
 });
 
 

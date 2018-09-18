@@ -6,33 +6,33 @@ var GENERAL_CACHE = {
 }
 
 var SYSTEM_CACHE = {
-  bounty_amount: 0,
-  daily_award: 0,
-  cycle_period: 0,
+  bounty_amount: 500,
+  daily_award: 20,
+  cycle_period: 15,
   total_tokens: 100000
 };
 
 var USER_CACHE = {
   qEng_Admin: {
-    address: "0x41bd2699334286eb8ab0d638ec06b21a4d104c9e",
+    address: "QLzLs1De53uRAA6QxQkBATvrAiLd6s86wg",
     spending_limit: 0,
     earned_tokens: 0,
     usd_balance: 0
   },
   qEng_UserOne:{
-    address: "0x6884194ff603ddb44dabfdd03401cd09739aa19b",
+    address: "QLzLs1De53ul1b1xQkBATvrAiLd6s86wg",
     spending_limit: 0,
     earned_tokens: 0,
     usd_balance: 0
   },
   qEng_UserTwo:{
-    address: "0x4c159ad5b15a3b2faec13c2214f37db8732bb41b",
+    address: "QLzLs1De53uRAA6PoLoBATvrAiLd6s86wg",
     spending_limit: 0,
-    earned_tokens: 0,
-    usd_balance: 0
+    earned_tokens: 60,
+    usd_balance: 7.5
   },
   qEng_GrowthBot:{
-    address: "0xf70d09b4240216741c0316ec2d5c61556f57987e",
+    address: "QLzLs1Dexx34AA6QxQkBATvrAiLd6s86wg",
     spending_limit: 0,
     earned_tokens: 0,
     usd_balance: 0
@@ -40,10 +40,10 @@ var USER_CACHE = {
 }
 
 var USER_CACHE_SUMMARY = [
-  {username: "qEng_Admin", wallet_id: "0x41bd2699334286eb8ab0d638ec06b21a4d104c9e" },
-  {username: "qEng_UserOne", wallet_id: "0x6884194ff603ddb44dabfdd03401cd09739aa19b"},
-  {username: "qEng_UserTwo", wallet_id: "0x4c159ad5b15a3b2faec13c2214f37db8732bb41b"},
-  {username: "qEng_GrowthBot", wallet_id: "0xf70d09b4240216741c0316ec2d5c61556f57987e"}
+  {username: "qEng_Admin", wallet_id: "QLzLs1De53uRAA6QxQkBATvrAiLd6s86wg" },
+  {username: "qEng_UserOne", wallet_id: "QLzLs1De53ul1b1xQkBATvrAiLd6s86wg"},
+  {username: "qEng_UserTwo", wallet_id: "QLzLs1De53uRAA6PoLoBATvrAiLd6s86wg"},
+  {username: "qEng_GrowthBot", wallet_id: "QLzLs1Dexx34AA6QxQkBATvrAiLd6s86wg"}
 ];
 
 const readGeneralCache = function() {

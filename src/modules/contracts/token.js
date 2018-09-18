@@ -42,6 +42,8 @@ const getBalance = function(address) {
 }
 
 module.exports = {
-  executeTransfer,
+  executeTipTransfer,
+  executeUpvoteTransfer,
+  executeRedeemTransfer,
   getBalance
 }
