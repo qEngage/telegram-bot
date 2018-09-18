@@ -1,9 +1,4 @@
-//var ROOT_SERVER_URL = 'http://localhost:3000';
 const {TOKEN_CONTRACT_ABI} = require('./abis/token');
-// import {BRAINPART_CONTRACT_ABI} from "./abi/brainpart";
-
-// export const NETWORK_ID = "4";
-// export const ROOT_SERVER_URL = 'https://brainfunc-landing-page-server.herokuapp.com';
 
 const CONTRACTS = {
   TOKEN: {
